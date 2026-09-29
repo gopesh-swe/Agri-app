@@ -5,14 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.UUID;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "user_addresses")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Address {
+public class Address extends TimeStamps {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,14 +30,15 @@ public class Address {
     private String addressType; // e.g. "RESIDENTIAL", "FARM_OFFICE", "WAREHOUSE"
 
     // Coordinate storage for the address
-    @Column(name = "latitude", precision = 10, scale = 8)
+    @Column(name = "latitude")
     private Double latitude;
 
-    @Column(name = "longitude", precision = 11, scale = 8)
+    @Column(name = "longitude")
     private Double longitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private User user;
+
 }
